@@ -1,0 +1,116 @@
+export const metadata = {
+  title: 'Errors',
+  description:
+    'In this guide, we will talk about what happens when something goes wrong while you work with the API.',
+}
+
+# Errors
+
+In this guide, we will talk about what happens when something goes wrong while you work with the API. Mistakes happen, and mostly they will be yours, not ours. Let's look at some status codes and error types you might encounter. {{ className: 'lead' }}
+
+You can tell if your request was successful by checking the status code when receiving an API response. If a response comes back unsuccessful, you can use the error type and error message to figure out what has gone wrong and do some rudimentary debugging (before contacting support).
+
+<Note>
+  Before reaching out to support with an error, please be aware that 99% of all
+  reported errors are, in fact, user errors. Therefore, please carefully check
+  your code before contacting Passona support.
+</Note>
+
+---
+
+## Status Codes
+
+Here is a list of the different categories of status codes returned by the Passona API. Use these to understand if a request was successful.
+
+<Properties>
+    <Property name="200">
+      The request has succeeded.
+    </Property>
+    <Property name="201">
+        The request has been fulfilled and has resulted in a resource has been created.
+    </Property>
+    <Property name="202">
+        The request has been accepted for processing, but the processing has not been completed.
+    </Property>
+    <Property name="204">
+        The server successfully processed the request and is not returning any content.
+    </Property>
+    <Property name="401">
+        The Authorization Header has not been set in the request, or its value is incorrect
+    </Property>
+    <Property name="403">
+        The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
+    </Property>
+    <Property name="404">
+        The requested resource could not be found but may be available in the future. Subsequent requests by the client are permissible.
+    </Property>
+    <Property name="409">
+        Indicates that the request could not be processed because of conflict in the current state of the resource.
+    </Property>
+    <Property name="422">
+        The request was well-formed but was unable to be followed due to semantic errors.
+    </Property>
+    <Property name="423">
+        The resource that is being accessed is locked.
+    </Property>
+    <Property name="5xx">
+        A 5xx status code indicates a server error — you won't be seeing these.
+    </Property>
+</Properties>
+
+---
+
+## Moderation Status Codes
+
+Some entities require moderation, when this is the case a `status` variable will be returned with an integer value.
+
+An index of these codes can be found below. Each section of the API documentation will list whether that entity is subject to moderation.
+
+        | Code     | Status       | Description                                                                             |
+        | -------- | -------      | --------------------------------------------------------------------------------------- |
+        | 0        | Pending      | The entity is currently pending moderation and will be picked up as soon as possible.   |
+        | 1        | Approved     | The entity has been moderated and is now ready for use.                                 |
+        | 2        | Rejected     | The entity has been deemed not acceptable by a moderator and is not ready for use, the moderator will leave a reason as to why it was rejected. |
+        | 3        | Postponed    | The entity requires further information / the team needs to be contacted about this. The moderator will leave a reason as to why it is in a postponed state. |
+
+---
+
+## Error Types
+
+<Row>
+  <Col>
+
+    Whenever a request is unsuccessful, the Passona API will return an error response with an error type and message. You can use this information to understand better what has gone wrong and how to fix it. Most of the error messages are pretty helpful and actionable.
+
+    Here is an example error supported by the Passona API.
+
+  </Col>
+  <Col>
+
+    ```bash {{ title: "Not Found Error Response" }}
+      {
+          "error": {
+              "code": 404,
+              "http_code": 404,
+              "message": "The entity you are looking for was not found"
+          }
+      }
+    ```
+
+      ```bash {{ title: "Unprocessable Entity Error Response" }}
+      {
+          "error": {
+              "code": 422,
+              "http_code": 422,
+              "message": "The given data was invalid.",
+              "errors": {
+                  "sender": [
+                      "The sender must be between 3 and 11 characters."
+                  ]
+              }
+          }
+      }
+      ```
+
+  </Col>
+</Row>

@@ -1,0 +1,48 @@
+export const metadata = {
+  title: 'Users',
+  description:
+    'On this page, we’ll dive into some helpful endpoints included in Passona\'s API to make things flow a little easier.',
+}
+
+# Users
+
+There are some helpful endpoints included in Passona's API to make things flow a little easier.
+
+---
+
+## Switch Team {{ tag: 'GET', label: '/api/2.0/users/switch/team/f3357bfe-fb20-11e9-93ef-0242ac120008ds' }}
+
+<Row>
+    <Col>
+        You can switch your current active team by passing in the uuid to the URL.
+
+        Be aware that when you switch team, any CRUD opertations performed via the API will be reflected on the current team and no other.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/users/switch/team/f3357bfe-fb20-11e9-93ef-0242ac120008ds">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/users/switch/team/5772baba-fb2a-11e9-80f8-0242ac120008' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "f5f18f8c-f4df-11e9-ba86-0242ac120006",
+                "name": "John Doe",
+                "email": "john@digitonic.co.uk",
+                "current_team_id": 2,
+                "created_at": "2019-10-22 16:23:55",
+                "updated_at": "2019-10-30 15:32:27"
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---

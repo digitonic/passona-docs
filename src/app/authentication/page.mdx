@@ -1,0 +1,30 @@
+export const metadata = {
+  title: 'Authentication',
+  description:
+    'In this guide, we’ll look at how authentication works. Passona offers one way to authenticate your API requests: Bearer token Authorization with a header.',
+}
+
+# Authentication
+
+You'll need to authenticate your requests to access any of the endpoints in the Passona API. In this guide, we'll look at how authentication works. Passona offers one way to authenticate your API requests: Bearer Authorization header with a token. {{ className: 'lead' }}
+
+## Authentication bearer token
+
+To authenticate with the Passona API, use a Authorization header with a `Bearer` token. You will need your access token — you will find it in the [Passona dashboard](https://passona.co.uk/settings#/api) under API settings. Here's how to add the token to the request header using cURL:
+
+```bash {{ title: 'Example request with bearer token' }}
+curl https://passona.co.uk/api/2.0/balance/ \
+  -H "Authorization: Bearer {token}"
+```
+
+Always keep your token safe and reset it if you suspect it has been compromised.
+
+## Using an SDK
+
+If you use one of our official SDKs, you won't have to worry about any of the above — fetch your access token from the [Passona dashboard](https://passona.co.uk/settings#/api) under API settings, and the client library will take care of the rest. All the client libraries use Bearer token behind the scenes.
+
+<div className="not-prose">
+  <Button href="/sdks" variant="text" arrow="right">
+    <>Check out our list of first-party SDKs</>
+  </Button>
+</div>

@@ -1,0 +1,43 @@
+import { Guides } from '@/components/Guides'
+import { Resources } from '@/components/Resources'
+import { HeroPattern } from '@/components/HeroPattern'
+
+export const metadata = {
+  title: 'API Documentation',
+  description:
+    'Learn everything there is to know about the Passona API and integrate Passona into your product.',
+}
+
+export const sections = [
+  { title: 'Guides', id: 'guides' },
+  { title: 'Resources', id: 'resources' },
+]
+
+<HeroPattern />
+
+# API Documentation
+
+Passona is a modern, high-volume SMS Marketing Platform. This API allows you to integrate and automate your SMS marketing workflows. {{ className: 'lead' }}
+
+<div className="not-prose mb-16 mt-6 flex gap-3">
+  <Button href="/quickstart" arrow="right">
+    <>Quickstart</>
+  </Button>
+  <Button href="/sdks" variant="outline">
+    <>Explore SDKs</>
+  </Button>
+</div>
+
+## Getting started {{ anchor: false }}
+
+To get started, get an API token from your [profile settings](https://passona.co.uk/settings#/api), then read about how to make requests for the resources you need to access using our HTTP APIs or dedicated client SDK. {{ className: 'lead' }}
+
+<div className="not-prose">
+  <Button href="https://passona.co.uk/settings#/api" variant="text" arrow="right">
+    <>Get your API key</>
+  </Button>
+</div>
+
+<Guides />
+
+<Resources />

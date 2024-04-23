@@ -1,0 +1,240 @@
+export const metadata = {
+    title: 'Webhooks',
+    description:
+        'On this page, we’ll dive into the different webhook endpoints you can use to manage webhook programmatically.',
+}
+
+# Webhooks
+
+Webhooks are a URL that can be specific for Passona to send a request as the reaction to a particular action. {{ className: 'lead' }}
+
+I.e a specified keyword is recieved with an inbound mesage and the contact group for the campaign has a webhook tied to its keywords. Passona will send a request to the provided webhook to alert the user. {{ className: 'lead' }}
+
+---
+
+## Create Webhook {{ tag: 'POST', label: '/api/2.0/webhooks/' }}
+
+<Row>
+    <Col>
+        When creating a webook, ensure you specify all the required headers for the request to be successful.
+
+        Should a webhook fail, Passona will not attempt to try a failed attempt again.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/api/2.0/webhooks/">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/webhooks/' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "name": "Example Webhook",
+                "url": "https://digitonic.co.uk/webhook",
+                "headers": {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                }
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "name": "Example Webhook",
+                "uuid": "a3377a90-fbbf-11e9-8044-0242ac120009",
+                "url": "https://digitonic.co.uk/webhook",
+                "headers": {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "http://passona.test/api/2.0/webhooks/a3377a90-fbbf-11e9-8044-0242ac120009"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Edit Webhook {{ tag: 'PUT', label: '/api/2.0/webhooks/dc8a7564-fb1e-11e9-abb5-0242ac120008' }}
+
+<Row>
+    <Col>
+        Webhooks can be updated by changing any of its fields.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="PUT" label="/api/2.0/webhooks/dc8a7564-fb1e-11e9-abb5-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request PUT 'https://passona.co.uk/api/2.0/webhooks/a3377a90-fbbf-11e9-8044-0242ac120009' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "name": "Example Webhook",
+                "url": "https://digitonic.co.uk/webhook/update"
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "name": "Example Webhook",
+                "uuid": "a3377a90-fbbf-11e9-8044-0242ac120009",
+                "url": "https://digitonic.co.uk/webhook/update",
+                "headers": {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "http://passona.test/api/2.0/webhooks/a3377a90-fbbf-11e9-8044-0242ac120009"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Show Webhook {{ tag: 'GET', label: '/api/2.0/webhooks/f3357bfe-fb20-11e9-93ef-0242ac120008ds' }}
+
+<Row>
+    <Col>
+        You can retrieve an individual webhook by passing the `uuid` into the url.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/webhooks/f3357bfe-fb20-11e9-93ef-0242ac120008ds">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/webhooks/a3377a90-fbbf-11e9-8044-0242ac120009' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "name": "Example Webhook",
+                "uuid": "a3377a90-fbbf-11e9-8044-0242ac120009",
+                "url": "https://digitonic.co.uk/webhook/update",
+                "headers": {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "http://passona.test/api/2.0/webhooks/a3377a90-fbbf-11e9-8044-0242ac120009"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Retrieve All Webhook {{ tag: 'GET', label: '/api/2.0/webhooks' }}
+
+<Row>
+    <Col>
+        Returns a paginated list of webhooks for your current team.
+
+        Default pagination length is 15 per page.
+
+        This can be changed if needed by adding a query parameter of `/?per_page=` and the number you wish to paginate by.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/webhooks">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/webhooks/' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": [
+                {
+                    "name": "Example Webhook",
+                    "uuid": "a3377a90-fbbf-11e9-8044-0242ac120009",
+                    "url": "https://digitonic.co.uk/webhook/update",
+                    "headers": {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    "links": [
+                        {
+                            "rel": "self",
+                            "uri": "http://passona.test/api/2.0/webhooks/a3377a90-fbbf-11e9-8044-0242ac120009"
+                        }
+                    ]
+                }
+            ],
+            "links": {
+                "first": "http://passona.test/api/2.0/webhooks?page=1",
+                "last": "http://passona.test/api/2.0/webhooks?page=1",
+                "prev": null,
+                "next": null
+            },
+            "meta": {
+                "current_page": 1,
+                "from": 1,
+                "last_page": 1,
+                "path": "http://passona.test/api/2.0/webhooks",
+                "per_page": 15,
+                "to": 1,
+                "total": 1
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Delete Webhook {{ tag: 'DELETE', label: '/api/2.0/webhooks/ae1fc0f8-fb28-11e9-87dc-0242ac120008' }}
+
+<Row>
+    <Col>
+        Delete a specific webhook by passing its `uuid` into the url.
+
+        There is no response body for this request. The HTTP status will be `204 - No Content` when successful.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="DELETE" label="/api/2.0/keywords/ae1fc0f8-fb28-11e9-87dc-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request DELETE 'https://passona.co.uk/api/2.0/webhooks/a3377a90-fbbf-11e9-8044-0242ac120009' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---

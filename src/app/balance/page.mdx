@@ -1,0 +1,50 @@
+export const metadata = {
+  title: 'Balance',
+  description:
+    'On this page, we’ll dive into the how to can obtain your account balance programmatically.',
+}
+
+# Balance
+
+The balance of a team is the amount of credits it has to send messages.  {{ className: 'lead' }}
+
+The value returned by this endpoint is a reflection of your balance as of the most recent campaign. {{ className: 'lead' }}
+
+Transactions can have the following types:
+
+**Dailies** - These transactions are what will be calculated after a campaign has been sent, this will be accompanied with a comment stating which campaign it is related to. This comment box may also be populated if a transaction is added manually by Digitonic staff member to correct a balance or prodide a credit or debit where appropriate.
+
+**Monthlies** - These transactions are a result of an aggregation of the previous months total daily transactions and will be reflected as such. A comment will also be added stating what month the aggregation is related to along with a credit or debit with the balance number.
+
+A statement of your transaction history can be found in your team settings. This area will show aggregations of the previous months balances in either a positive or negative state. The current months total transactions will be shown as a list.
+
+**Transaction Aggregations take place on the last day of every month**
+
+## Get Balance {{ tag: 'GET', label: '/api/2.0/balance/' }}
+
+<Row>
+  <Col>
+      This endpoint will return your current balance, accurate to when the last campaign has been sent.
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="GET" label="/api/2.0/balance/">
+
+    ```bash {{ title: 'cURL' }}
+    curl --location 'https://passona.co.uk/api/2.0/balance/' \
+    --header 'Authorization: Bearer {{token}}' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json'
+    ```
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+      {
+          "data": {
+          "team_uuid": "fa100954-f4df-11e9-961b-0242ac120006",
+          "team_name": "Digitonic",
+          "balance": "538098"
+      }
+    ```
+  </Col>
+</Row>

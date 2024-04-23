@@ -1,0 +1,161 @@
+export const metadata = {
+  title: 'Links',
+  description:
+    'On this page, we’ll dive into the different links endpoints you can use to manage links programmatically.',
+}
+
+# Links
+
+Links can be added to your campaign to allow recipients to be redirected to a url of your choosing.
+
+When added to a template, links are denoted with a shorthand of `::`. I.e - `::NEW_LINK::` what is placed between the colons is the name of the link.
+
+Anything placed between these double colons will be replaced with a personalised link in the message that the end recipients handset receives.
+
+---
+
+## Create Link {{ tag: 'POST', label: '/api/2.0/links/' }}
+
+<Row>
+  <Col>
+      Links are attached to a vanity domain which will provide a short link version of your destination url.
+
+      The name field is what should be used as a shorthand in templates. I.e `::INFO::`
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="POST" label="/api/2.0/links/">
+
+    ```bash {{ title: 'cURL' }}
+        curl --location 'https://passona.co.uk/api/2.0/links/' \
+        --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+        --header 'Accept: application/json' \
+        --header 'Content-Type: application/json' \
+        --data '{
+            "vanity_domain_uuid": "fa399fc6-f4df-11e9-8b4a-0242ac120006",
+            "template_uuid": "3021906e-fb1e-11e9-bbd9-0242ac120008",
+            "name": "INFO",
+            "destination": "https://digitonic.co.uk"
+        }'
+    ```
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+      {
+          "data": {
+              "uuid": "a5b240c8-fbbc-11e9-8565-0242ac120009",
+              "vanity_domain_uuid": "fa399fc6-f4df-11e9-8b4a-0242ac120006",
+              "template_uuid": "3021906e-fb1e-11e9-bbd9-0242ac120008",
+              "name": "INFO",
+              "destination": "https://digitonic.co.uk",
+              "created_at": "2019-10-31 08:58:46",
+              "updated_at": "2019-10-31 08:58:46"
+          }
+      }
+    ```
+  </Col>
+</Row>
+
+---
+
+## Edit Link {{ tag: 'PUT', label: '/api/2.0/links/dc8a7564-fb1e-11e9-abb5-0242ac120008' }}
+
+<Row>
+    <Col>
+        Links can be updated by changing any of its fields.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="PUT" label="/api/2.0/links/dc8a7564-fb1e-11e9-abb5-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request PUT 'https://passona.co.uk/api/2.0/links/a5b240c8-fbbc-11e9-8565-0242ac120009' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "vanity_domain_uuid": "fa399fc6-f4df-11e9-8b4a-0242ac120006",
+                "template_uuid": "3021906e-fb1e-11e9-bbd9-0242ac120008",
+                "name": "INFO",
+                "destination": "https://digitonic.co.uk/info"
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "a5b240c8-fbbc-11e9-8565-0242ac120009",
+                "vanity_domain_uuid": "fa399fc6-f4df-11e9-8b4a-0242ac120006",
+                "template_uuid": "3021906e-fb1e-11e9-bbd9-0242ac120008",
+                "name": "INFO",
+                "destination": "https://digitonic.co.uk/info",
+                "created_at": "2019-10-31 08:58:46",
+                "updated_at": "2019-10-31 09:01:08"
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Show Link {{ tag: 'GET', label: '/api/2.0/links/f3357bfe-fb20-11e9-93ef-0242ac120008ds' }}
+
+<Row>
+    <Col>
+        You can retrieve an individual link by passing the `uuid` into the url.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/links/f3357bfe-fb20-11e9-93ef-0242ac120008ds">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/links/a5b240c8-fbbc-11e9-8565-0242ac120009' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "a5b240c8-fbbc-11e9-8565-0242ac120009",
+                "vanity_domain_uuid": "fa399fc6-f4df-11e9-8b4a-0242ac120006",
+                "template_uuid": "3021906e-fb1e-11e9-bbd9-0242ac120008",
+                "name": "INFO",
+                "destination": "https://digitonic.co.uk",
+                "created_at": "2019-10-31 08:58:46",
+                "updated_at": "2019-10-31 08:58:46"
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Delete Link {{ tag: 'DELETE', label: '/api/2.0/links' }}
+
+<Row>
+    <Col>
+        Delete a specific link by passing its `uuid` into the url.
+
+        There is no response body for this request. The HTTP status will be `204 - No Content` when successful.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="DELETE" label="/api/2.0/links">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request DELETE 'https://passona.co.uk/api/2.0/links/a5b240c8-fbbc-11e9-8565-0242ac120009' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---

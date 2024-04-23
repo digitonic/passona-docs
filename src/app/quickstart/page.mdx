@@ -1,0 +1,41 @@
+export const metadata = {
+  title: 'Quickstart',
+  description:
+    'This guide will get you all set up and ready to use the Passona API. We’ll cover how to get started an API client and how to make your first API request.',
+}
+
+# Quickstart
+
+This guide will get you all set up and ready to use the Passona API. We'll cover how to get started using our API client and how to make your first API request. We'll also look at where to go next to find all the information you need to take full advantage of our powerful REST API. {{ className: 'lead' }}
+
+<Note>
+  Before you can make requests to the Passona API, you will need to grab your
+  API key from your dashboard. You find it under [Settings &raquo; API](https://passona.co.uk/settings#/api).
+</Note>
+
+## Choose your client
+
+Before making your first API request, you need to pick which API client you will use. In addition to good ol' cURL HTTP requests, Passona offers a client for PHP. In the following example, you can see how to install the client.
+
+<CodeGroup>
+
+```bash {{ language: 'php' }}
+# Install the Passona PHP SDK
+composer require digitonic/passona-sdk
+```
+
+</CodeGroup>
+
+<div className="not-prose">
+  <Button href="/sdks" variant="text" arrow="right">
+    <>Check out our list of first-party SDKs</>
+  </Button>
+</div>
+
+## What's next?
+
+Great, you're now set up with an API client. Here are a few links that might be handy as you venture further into the Passona API:
+
+- [Grab your API key from the Passona dashboard](https://passona.co.uk/settings#/api)
+- [Check out the Balance endpoint](/balance)
+- [Learn about the different error messages in Passona](/errors)

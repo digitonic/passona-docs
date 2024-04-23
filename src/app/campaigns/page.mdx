@@ -1,0 +1,640 @@
+export const metadata = {
+  title: 'Campaigns',
+  description:
+    'On this page, we’ll dive into the different campaigns endpoints you can use to manage campaigns programmatically.',
+}
+
+# Campaigns
+
+Campaigns are used to send SMS's to groups of recipients known as contact groups in Passona. Templates can be used to set the body of the text. You can use links to a web page, which will be tracked for clicks if you use one of the domains attached to your organization in Passona. {{ className: 'lead' }}
+
+## The campaign model
+
+<Properties>
+  <Property name="name" type="string">
+    The name of the campaign.
+  </Property>
+  <Property name="sender" type="string">
+    The display name of the sender on the mobile device.
+  </Property>
+  <Property name="scheduled_send_date" type="string">
+    The date the campaign is scheduled to start sending.
+  </Property>
+  <Property name="expiry_date" type="string">
+    The date the campaign should expire, marking undelivered as failed.
+  </Property>
+  <Property name="included_contact_groups" type="string">
+    Unique identifier for the contact groups to be included with the campaign.
+  </Property>
+  <Property name="excluded_contact_groups" type="string">
+    Unique identifier for the contact groups to be excluded from the campaign.
+  </Property>
+  <Property name="template_uuid" type="timestamp">
+    The unique identifier for the template to be used in the campaign.
+  </Property>
+</Properties>
+
+---
+
+## Create Campaign {{ tag: 'POST', label: '/api/2.0/campaigns/' }}
+
+<Row>
+  <Col>
+
+  Create a new campaign which will utilize previously created contact groups, both **Optins** and **Optouts**. Every team will have a `default_optouts` contact group attached to the team which can be used as an excluded contact group.
+
+  **Senders** must be between **3-11** characters in length.
+
+  Campaigns also require a valid template which is the content to be delivered to the end recipients handset.
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="POST" label="/api/2.0/campaigns/">
+
+    ```bash {{ title: 'cURL' }}
+    curl --location 'https://passona.co.uk/api/2.0campaigns/' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer {{token}}' \
+    --data '{
+        "name" : "New Campaign",
+        "sender" : "Digitonic",
+        "scheduled_send_date" : "2019-11-25 15:25:00",
+        "expiry_date" : "2019-12-26 15:25:00",
+        "included_contact_groups" : ["16cd47aa-f4e0-11e9-a8c1-0242ac120006"],
+        "excluded_contact_groups" :  ["fa306d66-f4df-11e9-a171-0242ac120006"],
+        "template_uuid" : "3021906e-fb1e-11e9-bbd9-0242ac120008"
+    }'
+    ```
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+      {
+          "data": {
+              "uuid": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+              "team_uuid": "fa100954-f4df-11e9-961b-0242ac120006",
+              "name": "New Campaign",
+              "sender": "Digitonic",
+              "scheduled_send_date": "2019-11-25 15:25:00",
+              "expiry_date": "2019-12-26 15:25:00",
+              "status": 0,
+              "included_contact_groups": [
+                "16cd47aa-f4e0-11e9-a8c1-0242ac120006"
+              ],
+              "excluded_contact_groups": [
+                "fa306d66-f4df-11e9-a171-0242ac120006"
+              ],
+              "started_sending_at": "",
+              "template_uuid": "3021906e-fb1e-11e9-bbd9-0242ac120008",
+              "finished_sending_at": "",
+              "created_at": "2019-10-30 14:09:17",
+              "updated_at": ""
+          }
+      }
+    ```
+  </Col>
+</Row>
+
+---
+
+## Edit Campaign {{ tag: 'PUT', label: '/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008' }}
+
+<Row>
+    <Col>
+
+        You can edit a campaign providing it does not meet any of these criteria:
+
+        **Send in past** - If the campaigns send time is in the past, the campaign will not be able to be modified.
+
+        **Send in progress** - If the campaign is in the process of sending, modifications will not be possible.
+
+        If any of these criteria are met, the campaign will be in a locked state and the API will return a `HTTP 423 - Locked` response.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="PUT" label="/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request PUT 'https://passona.co.uk/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "name" : "New Campaign Updated",
+                "sender" : "88440",
+                "scheduled_send_date" : "2019-11-25 15:25:00",
+                "expiry_date" : "2019-12-26 15:25:00",
+                "included_contact_groups" : ["16cd47aa-f4e0-11e9-a8c1-0242ac120006"],
+                "excluded_contact_groups" :  ["fa306d66-f4df-11e9-a171-0242ac120006"],
+                "template_uuid" : "3021906e-fb1e-11e9-bbd9-0242ac120008"
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                "team_uuid": "fa100954-f4df-11e9-961b-0242ac120006",
+                "name": "New Campaign Updated",
+                "sender": "88440",
+                "scheduled_send_date": "2019-11-25 15:25:00",
+                "expiry_date": "2019-12-26 15:25:00",
+                "status": 0,
+                "included_contact_groups": [
+                    "16cd47aa-f4e0-11e9-a8c1-0242ac120006"
+                ],
+                "excluded_contact_groups": [
+                    "fa306d66-f4df-11e9-a171-0242ac120006"
+                ],
+                "started_sending_at": "",
+                "template_uuid": "3021906e-fb1e-11e9-bbd9-0242ac120008",
+                "finished_sending_at": "",
+                "created_at": "2019-10-30 14:09:17",
+                "updated_at": ""
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Retrieve All Campaigns {{ tag: 'GET', label: '/api/2.0/campaigns' }}
+
+<Row>
+    <Col>
+
+        Returns a paginated list of campaigns for your current team.
+
+        Default pagination length is 15 per page.
+
+        This can be changed if needed by adding a query parameter of `/?per_page=` and the number you wish to paginate by.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/campaigns/">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/campaigns/' \
+                --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+                --header 'Accept: application/json' \
+                --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": [
+                {
+                    "uuid": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                    "team_uuid": "fa100954-f4df-11e9-961b-0242ac120006",
+                    "name": "New Campaign Updated",
+                    "sender": "88440",
+                    "scheduled_send_date": "2019-11-25 15:25:00",
+                    "expiry_date": "2019-12-26 15:25:00",
+                    "status": 0,
+                    "included_contact_groups": [
+                        "16cd47aa-f4e0-11e9-a8c1-0242ac120006"
+                    ],
+                    "excluded_contact_groups": [
+                        "fa306d66-f4df-11e9-a171-0242ac120006"
+                    ],
+                    "started_sending_at": "",
+                    "template_uuid": "3021906e-fb1e-11e9-bbd9-0242ac120008",
+                    "finished_sending_at": "",
+                    "created_at": "2019-10-30 14:09:17",
+                    "updated_at": ""
+                }
+            ],
+            "links": {
+                "first": "http://passona.test/api/2.0/campaigns?page=1",
+                "last": "http://passona.test/api/2.0/campaigns?page=1",
+                "prev": null,
+                "next": null
+            },
+            "meta": {
+                "current_page": 1,
+                "from": 1,
+                "last_page": 1,
+                "path": "http://passona.test/api/2.0/campaigns",
+                "per_page": 15,
+                "to": 1,
+                "total": 1
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Get Campaign {{ tag: 'GET', label: '/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008' }}
+
+<Row>
+    <Col>
+        Retrieve information about a specific campaign
+
+        ### Statuses
+
+        | Status   | Meaning |
+        | -------- | ------- |
+        | 0        | Pending |
+        | 1        | Sending |
+        | 2        | Sent    |
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --data ''
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                "team_uuid": "5772baba-fb2a-11e9-80f8-0242ac120008",
+                "name": "Other Test",
+                "sender": "Digitonic",
+                "scheduled_send_date": "2019-12-16 17:48:00",
+                "expiry_date": "2019-12-18 17:50:05",
+                "status": 2,
+                "throttled": false,
+                "included_contact_groups": [
+                    "09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                ],
+                "excluded_contact_groups": [
+                    "09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                ],
+                "started_sending_at": "2019-12-16 17:49:02",
+                "template_uuid": "49deafce-fbbd-11e9-93b1-0242ac120009",
+                "finished_sending_at": "2019-12-16 17:49:07",
+                "created_at": "2019-12-16 17:48:24",
+                "updated_at": "2019-12-16 17:49:07"
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Delete Campaign {{ tag: 'DELETE', label: '/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008' }}
+
+<Row>
+    <Col>
+        Deletes a specified campaign.
+
+        There is no response body for this request. The HTTP status will be `204 - No Content` when successful.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="DELETE" label="/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request DELETE 'https://passona.co.uk/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Send Test Campaign {{ tag: 'POST', label: '/api/2.0/campaigns/send-test' }}
+
+<Row>
+    <Col>
+
+        You can schedule a test campaign.
+
+        This endpoint only accepts **one** contact to send a message to. Custom fields must be provided as key value pairs.
+
+        If no custom fields are provided, the campaign will have no personalisation.
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/api/2.0/campaigns/send-test">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/campaigns/send-test' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "name" : "Test Campaign",
+                "sender" : "Digitonic",
+                "scheduled_send_date" : "2019-11-25 15:25:00",
+                "expiry_date" : "2019-12-26 15:25:00",
+                "template_uuid" : "3021906e-fb1e-11e9-bbd9-0242ac120008",
+                "contact_number": "447785856985",
+                "custom_fields": {
+                    "title": "Mr",
+                    "first_name": "John",
+                    "last_name": "Doe"
+                }
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "2050d080-fb20-11e9-9898-0242ac120008",
+                "team_uuid": "fa100954-f4df-11e9-961b-0242ac120006",
+                "name": "Test Campaign",
+                "sender": "Digitonic",
+                "scheduled_send_date": "2019-10-30 14:18:00",
+                "expiry_date": "2019-11-01 14:18:21",
+                "status": 0,
+                "included_contact_groups": [
+                    "21c4cd68-fb20-11e9-8cc9-0242ac120008"
+                ],
+                "excluded_contact_groups": [],
+                "started_sending_at": "",
+                "template_uuid": "3021906e-fb1e-11e9-bbd9-0242ac120008",
+                "finished_sending_at": "",
+                "created_at": "2019-10-30 14:18:21",
+                "updated_at": ""
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Create Throttled Campaign {{ tag: 'POST', label: '/api/2.0/campaigns' }}
+
+<Row>
+    <Col>
+
+        Create a new throttled campaign which will utilize previously created contact groups, both **Optins** and **Optouts**. Every team will have a `default_optouts` contact group attached to the team which can be used as an excluded contact group.
+
+        **Senders** must be between **3-11** characters in length.
+
+        **Pauses** are not required but can be used to schedule some time periods when no messages will be sent.
+
+        **N.B**. You can update the `manually_paused` field to true using the Edit Campaign endpoint or the convenience Toggle Campaign Pause Status endpoint to manually pause the campaign (i.e., to stop all messages being sent for the time being, and until it is set to false).
+
+        Campaigns also require a valid template which is the content to be delivered to the end recipients handset.
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/api/2.0/campaigns/">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/campaigns/' \
+                --header 'Accept: application/json' \
+                --header 'Content-Type: application/json' \
+                --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+                --data '{
+                "name" : "New Campaign",
+                "sender" : "Digitonic",
+                "throttled" : true,
+                "scheduled_send_date" : "2020-11-25 15:25:00",
+                "scheduled_finish_date" : "2020-11-25 16:25:00",
+                "expiry_date" : "2020-12-26 15:25:00",
+                "pauses" : [
+                    {
+                        "start_at" : "2020-11-25 15:35:00",
+                        "end_at" : "2020-11-25 15:45:00"
+                    },
+                    {
+                        "start_at" : "2020-11-25 16:00:00",
+                        "end_at" : "2020-11-25 16:10:00"
+                    }
+                ],
+                "included_contact_groups" : ["09e0a326-fb2e-11e9-ba2a-0242ac120008"],
+                "excluded_contact_groups" :  ["09e0a326-fb2e-11e9-ba2a-0242ac120008"],
+                "template_uuid" : "49deafce-fbbd-11e9-93b1-0242ac120009"
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                "team_uuid": "5772baba-fb2a-11e9-80f8-0242ac120008",
+                "name": "New Campaign",
+                "sender": "Digitonic",
+                "scheduled_send_date": "2020-11-25 15:25:00",
+                "expiry_date": "2020-12-26 15:25:00",
+                "status": 0,
+                "throttled": true,
+                "included_contact_groups": [
+                    "09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                ],
+                "excluded_contact_groups": [
+                    "09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                ],
+                "started_sending_at": "",
+                "template_uuid": "49deafce-fbbd-11e9-93b1-0242ac120009",
+                "finished_sending_at": "",
+                "created_at": "2020-06-26 12:15:51",
+                "updated_at": "2020-06-26 12:15:51",
+                "scheduled_finish_date": "2020-11-25 16:25:00",
+                "manually_paused": null,
+                "pauses": [
+                    {
+                        "uuid": "64cc3b7e-b79e-11ea-94ed-2a1c9c82e65d",
+                        "campaign_uuid": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                        "start_at": "2020-11-25 15:35:00",
+                        "end_at": "2020-11-25 15:45:00",
+                        "created_at": "2020-06-26 12:15:51",
+                        "updated_at": "2020-06-26 12:15:51"
+                    },
+                    {
+                        "uuid": "64cd186e-b79e-11ea-aef5-2a1c9c82e65d",
+                        "campaign_uuid": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                        "start_at": "2020-11-25 16:00:00",
+                        "end_at": "2020-11-25 16:10:00",
+                        "created_at": "2020-06-26 12:15:51",
+                        "updated_at": "2020-06-26 12:15:51"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Edit Throttled Campaign {{ tag: 'PUT', label: '/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008' }}
+
+<Row>
+    <Col>
+
+        You can edit a throttled campaign providing it does not meet any of these criteria:
+
+        **Send in past** - If the campaigns send time is in the past, the campaign will not be able to be modified.
+
+        **Send in progress** - If the campaign is in the process of sending, modifications will not be possible.
+
+        If any of these criteria are met, the campaign will be in a **locked** state and the API will return a `HTTP 423 - Locked` response.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="PUT" label="/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/campaigns/' \
+                --header 'Accept: application/json' \
+                --header 'Content-Type: application/json' \
+                --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+                --data '{
+                "name" : "New Campaign",
+                "sender" : "Digitonic",
+                "throttled" : true,
+                "scheduled_send_date" : "2020-11-25 15:25:00",
+                "scheduled_finish_date" : "2020-11-25 16:25:00",
+                "expiry_date" : "2020-12-26 15:25:00",
+                "pauses" : [
+                    {
+                        "start_at" : "2020-11-25 15:35:00",
+                        "end_at" : "2020-11-25 15:45:00"
+                    },
+                    {
+                        "start_at" : "2020-11-25 16:00:00",
+                        "end_at" : "2020-11-25 16:10:00"
+                    }
+                ],
+                "included_contact_groups" : ["09e0a326-fb2e-11e9-ba2a-0242ac120008"],
+                "excluded_contact_groups" :  ["09e0a326-fb2e-11e9-ba2a-0242ac120008"],
+                "template_uuid" : "49deafce-fbbd-11e9-93b1-0242ac120009"
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                "team_uuid": "5772baba-fb2a-11e9-80f8-0242ac120008",
+                "name": "New Campaign",
+                "sender": "Digitonic",
+                "scheduled_send_date": "2020-11-25 15:25:00",
+                "expiry_date": "2020-12-26 15:25:00",
+                "status": 0,
+                "throttled": true,
+                "included_contact_groups": [
+                    "09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                ],
+                "excluded_contact_groups": [
+                    "09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                ],
+                "started_sending_at": "",
+                "template_uuid": "49deafce-fbbd-11e9-93b1-0242ac120009",
+                "finished_sending_at": "",
+                "created_at": "2020-06-26 12:15:51",
+                "updated_at": "2020-06-26 12:15:51",
+                "scheduled_finish_date": "2020-11-25 16:25:00",
+                "manually_paused": null,
+                "pauses": [
+                {
+                    "uuid": "64cc3b7e-b79e-11ea-94ed-2a1c9c82e65d",
+                    "campaign_uuid": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                    "start_at": "2020-11-25 15:35:00",
+                    "end_at": "2020-11-25 15:45:00",
+                    "created_at": "2020-06-26 12:15:51",
+                    "updated_at": "2020-06-26 12:15:51"
+                },
+                {
+                    "uuid": "64cd186e-b79e-11ea-aef5-2a1c9c82e65d",
+                    "campaign_uuid": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                    "start_at": "2020-11-25 16:00:00",
+                    "end_at": "2020-11-25 16:10:00",
+                    "created_at": "2020-06-26 12:15:51",
+                    "updated_at": "2020-06-26 12:15:51"
+                }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Toggle Throttled Status {{ tag: 'PUT', label: '/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008/toggle-paused-status' }}
+
+<Row>
+    <Col>
+        This endpoint can be used to manually pause/unpause a throttled campaign. Pausing the campaign will stop all messages to be sent immediately, and until the campaign is unpaused.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="PUT" label="/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008/toggle-paused-status">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request PUT 'https://passona.co.uk/api/2.0/campaigns/dc8a7564-fb1e-11e9-abb5-0242ac120008/toggle-paused-status' \
+                --header 'Content-Type: application/json' \
+                --header 'Accept: application/json' \
+                --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                "team_uuid": "5772baba-fb2a-11e9-80f8-0242ac120008",
+                "name": "New Campaign",
+                "sender": "Digitonic",
+                "scheduled_send_date": "2020-11-25 15:25:00",
+                "expiry_date": "2020-12-26 15:25:00",
+                "status": 0,
+                "throttled": true,
+                "included_contact_groups": [
+                    "09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                ],
+                "excluded_contact_groups": [
+                    "09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                ],
+                "started_sending_at": "",
+                "template_uuid": "49deafce-fbbd-11e9-93b1-0242ac120009",
+                "finished_sending_at": "",
+                "created_at": "2020-06-26 12:15:51",
+                "updated_at": "2020-06-26 12:43:46",
+                "scheduled_finish_date": "2020-11-25 16:25:00",
+                "manually_paused": true,
+                "pauses": [
+                {
+                    "uuid": "64cc3b7e-b79e-11ea-94ed-2a1c9c82e65d",
+                    "campaign_uuid": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                    "start_at": "2020-11-25 15:35:00",
+                    "end_at": "2020-11-25 15:45:00",
+                    "created_at": "2020-06-26 12:15:51",
+                    "updated_at": "2020-06-26 12:15:51"
+                },
+                {
+                    "uuid": "64cd186e-b79e-11ea-aef5-2a1c9c82e65d",
+                    "campaign_uuid": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                    "start_at": "2020-11-25 16:00:00",
+                    "end_at": "2020-11-25 16:10:00",
+                    "created_at": "2020-06-26 12:15:51",
+                    "updated_at": "2020-06-26 12:15:51"
+                }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---

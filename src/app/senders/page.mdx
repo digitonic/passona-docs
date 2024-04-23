@@ -1,0 +1,258 @@
+export const metadata = {
+  title: 'Senders',
+  description:
+    'On this page, we’ll dive into the different senders endpoints you can use to manage senders programmatically.',
+}
+
+# Senders
+
+Senders are what the end recipients handset sees as who send the message. {{ className: 'lead' }}
+
+All teams will have a default sender of `88440` as well as a stripped down version of their team name up to a maximum of 11 characters. {{ className: 'lead' }}
+
+Any new senders created must be between **3-11** characters in length. {{ className: 'lead' }}
+
+---
+
+## Create Sender {{ tag: 'POST', label: '/api/2.0/senders/' }}
+
+<Row>
+  <Col>
+      Create a new sender by providing a **3-11** character length string.
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="POST" label="/api/2.0/senders/">
+
+    ```bash {{ title: 'cURL' }}
+    curl --location 'https://passona.co.uk/api/2.0/senders/' \
+    --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+        --data '{
+        "sender": "NewSender"
+    }'
+    ```
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+      {
+          "data": {
+              "uuid": "ae1fc0f8-fb28-11e9-87dc-0242ac120008",
+              "team_id": "",
+              "sender": "NewSender",
+              "status": "1",
+              "created_at": "2019-10-30 15:19:35",
+              "updated_at": "2019-10-30 15:19:35",
+              "links": [
+                  {
+                      "rel": "self",
+                      "uri": "http://passona.test/api/2.0/senders/ae1fc0f8-fb28-11e9-87dc-0242ac120008"
+                  }
+              ]
+          }
+      }
+    ```
+  </Col>
+</Row>
+
+---
+
+## Edit Sender {{ tag: 'PUT', label: '/api/2.0/senders/dc8a7564-fb1e-11e9-abb5-0242ac120008' }}
+
+<Row>
+    <Col>
+        Edit a sender with a **3-11** character length string.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="PUT" label="/api/2.0/senders/dc8a7564-fb1e-11e9-abb5-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request PUT 'https://passona.co.uk/api/2.0/senders/ae1fc0f8-fb28-11e9-87dc-0242ac120008' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "sender": "UpdateSend"
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "ae1fc0f8-fb28-11e9-87dc-0242ac120008",
+                "team_id": "",
+                "sender": "UpdateSend",
+                "status": "1",
+                "created_at": "2019-10-30 15:19:35",
+                "updated_at": "2019-10-30 15:21:49",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "http://passona.test/api/2.0/senders/ae1fc0f8-fb28-11e9-87dc-0242ac120008"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Show Sender {{ tag: 'GET', label: '/api/2.0/senders/f3357bfe-fb20-11e9-93ef-0242ac120008ds' }}
+
+<Row>
+    <Col>
+        You can retrieve an individual sender by passing the `uuid` into the url.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/senders/f3357bfe-fb20-11e9-93ef-0242ac120008ds">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/senders/ae1fc0f8-fb28-11e9-87dc-0242ac120008' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "ae1fc0f8-fb28-11e9-87dc-0242ac120008",
+                "team_id": "",
+                "sender": "UpdateSend",
+                "status": "1",
+                "created_at": "2019-10-30 15:19:35",
+                "updated_at": "2019-10-30 15:21:49",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "http://passona.test/api/2.0/senders/ae1fc0f8-fb28-11e9-87dc-0242ac120008"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Retrieve All Senders {{ tag: 'GET', label: '/api/2.0/senders' }}
+
+<Row>
+    <Col>
+        Returns a paginated list of senders for your current team.
+
+        Default pagination length is 15 per page.
+
+        This can be changed if needed by adding a query parameter of `/?per_page=` and the number you wish to paginate by.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/senders">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/senders/' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": [
+                {
+                    "uuid": "fa18de1c-f4df-11e9-9702-0242ac120006",
+                    "team_id": "",
+                    "sender": "Digitonic",
+                    "status": "1",
+                    "created_at": "2019-10-22 16:24:02",
+                    "updated_at": "2019-10-22 16:24:02",
+                    "links": [
+                        {
+                            "rel": "self",
+                            "uri": "http://passona.test/api/2.0/senders/fa18de1c-f4df-11e9-9702-0242ac120006"
+                        }
+                    ]
+                },
+                {
+                    "uuid": "fa1ccd10-f4df-11e9-9821-0242ac120006",
+                    "team_id": "",
+                    "sender": "884400",
+                    "status": "1",
+                    "created_at": "2019-10-22 16:24:02",
+                    "updated_at": "2019-10-22 16:24:02",
+                    "links": [
+                        {
+                            "rel": "self",
+                            "uri": "http://passona.test/api/2.0/senders/fa1ccd10-f4df-11e9-9821-0242ac120006"
+                        }
+                    ]
+                },
+                {
+                    "uuid": "ae1fc0f8-fb28-11e9-87dc-0242ac120008",
+                    "team_id": "",
+                    "sender": "UpdateSend",
+                    "status": "1",
+                    "created_at": "2019-10-30 15:19:35",
+                    "updated_at": "2019-10-30 15:21:49",
+                    "links": [
+                        {
+                            "rel": "self",
+                            "uri": "http://passona.test/api/2.0/senders/ae1fc0f8-fb28-11e9-87dc-0242ac120008"
+                        }
+                    ]
+                }
+            ],
+            "links": {
+                "first": "http://passona.test/api/2.0/senders?page=1",
+                "last": "http://passona.test/api/2.0/senders?page=1",
+                "prev": null,
+                "next": null
+            },
+            "meta": {
+                "current_page": 1,
+                "from": 1,
+                "last_page": 1,
+                "path": "http://passona.test/api/2.0/senders",
+                "per_page": 15,
+                "to": 3,
+                "total": 3
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Delete Sender {{ tag: 'DELETE', label: '/api/2.0/senders/ae1fc0f8-fb28-11e9-87dc-0242ac120008' }}
+
+<Row>
+    <Col>
+        Delete a specific sender by passing its `uuid` into the url.
+
+        There is no response body for this request. The HTTP status will be `204 - No Content` when successful.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="DELETE" label="/api/2.0/senders/ae1fc0f8-fb28-11e9-87dc-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request DELETE 'https://passona.co.uk/api/2.0/senders/ae1fc0f8-fb28-11e9-87dc-0242ac120008' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---

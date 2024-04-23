@@ -1,0 +1,260 @@
+export const metadata = {
+  title: 'Vanity Domains',
+  description:
+    'On this page, we’ll dive into the different vanity domains endpoints you can use to manage vanity domains programmatically.',
+}
+
+# Vanity Domains
+
+Vanity domains are used to replace longer links in a message and keep the character count down in a message. {{ className: 'lead' }}
+
+By default, all teams have access to a vanity domain of `https://psms.io` which is can be used in any template. {{ className: 'lead' }}
+
+When a user clicks on a vanity domain, they will be redirected to the destination url of your choosing which is set against a link. The setup for this is covered in the **Links** section of the API documentation. {{ className: 'lead' }}
+
+Vanity domains can either belong to Digitonic or the user of Passona can specify their own domain and point it towards our name servers. {{ className: 'lead' }}
+
+**Vanity Domains are subject to moderation by Digitonic.** {{ className: 'lead' }}
+
+---
+
+## Create Vanity Domain {{ tag: 'POST', label: '/api/2.0/vanity-domains/' }}
+
+<Row>
+  <Col>
+      In the response of creating a vanity domain `Nameservers` and `zone_id` can take time to update and will not be immediately populated upon creation.
+
+      After a vanity domain is created, it is subject to moderation by Digitonic staff.
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="POST" label="/api/2.0/vanity-domains/">
+
+    ```bash {{ title: 'cURL' }}
+        curl --location 'https://passona.co.uk/api/2.0/vanity-domains/' \
+        --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+        --header 'Accept: application/json' \
+        --header 'Content-Type: application/json' \
+        --data '{
+            "domain": "https://tes.io"
+        }'
+    ```
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+      {
+          "data": {
+              "uuid": "9cbd44d4-fbbe-11e9-b49d-0242ac120009",
+              "domain": "https://tes.io",
+              "dns_status": "Pending Validation",
+              "nameservers": "[]",
+              "status": "1",
+              "created_at": "2019-10-31 09:12:50",
+              "updated_at": "2019-10-31 09:12:50",
+              "zone_id": "",
+              "links": [
+                  {
+                      "rel": "self",
+                      "uri": "http://passona.test/api/2.0/vanity-domains/9cbd44d4-fbbe-11e9-b49d-0242ac120009"
+                  }
+              ]
+          }
+      }
+    ```
+  </Col>
+</Row>
+
+---
+
+## Edit Vanity Domain {{ tag: 'PUT', label: '/api/2.0/vanity-domains/dc8a7564-fb1e-11e9-abb5-0242ac120008' }}
+
+<Row>
+    <Col>
+        Any vanity domains that are edited will be subject to moderation again, regardless of their previous moderation status.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="PUT" label="/api/2.0/vanity-domains/dc8a7564-fb1e-11e9-abb5-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request PUT 'https://passona.co.uk/api/2.0/vanity-domains/9cbd44d4-fbbe-11e9-b49d-0242ac120009' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "domain": "https://test.xyz"
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "9cbd44d4-fbbe-11e9-b49d-0242ac120009",
+                "domain": "https://test.xyz",
+                "dns_status": "Pending Validation",
+                "nameservers": "[]",
+                "status": "1",
+                "created_at": "2019-10-31 09:12:50",
+                "updated_at": "2019-10-31 09:13:59",
+                "zone_id": "",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "http://passona.test/api/2.0/vanity-domains/9cbd44d4-fbbe-11e9-b49d-0242ac120009"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Show Vanity Domain {{ tag: 'GET', label: '/api/2.0/vanity-domains/f3357bfe-fb20-11e9-93ef-0242ac120008ds' }}
+
+<Row>
+    <Col>
+        You can retrieve an individual vanity domain by passing the `uuid` into the url.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/vanity-domains/f3357bfe-fb20-11e9-93ef-0242ac120008ds">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/vanity-domains/9cbd44d4-fbbe-11e9-b49d-0242ac120009' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "9cbd44d4-fbbe-11e9-b49d-0242ac120009",
+                "domain": "https://test.xyz",
+                "dns_status": "Pending Validation",
+                "nameservers": "[]",
+                "status": "1",
+                "created_at": "2019-10-31 09:12:50",
+                "updated_at": "2019-10-31 09:13:59",
+                "zone_id": "",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "http://passona.test/api/2.0/vanity-domains/9cbd44d4-fbbe-11e9-b49d-0242ac120009"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Retrieve All Vanity Domain {{ tag: 'GET', label: '/api/2.0/vanity-domains' }}
+
+<Row>
+    <Col>
+        Returns a paginated list of keywords for your current team.
+
+        Default pagination length is 15 per page.
+
+        This can be changed if needed by adding a query parameter of `/?per_page=` and the number you wish to paginate by.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/vanity-domains">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/vanity-domains/' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": [
+                {
+                    "uuid": "fa399fc6-f4df-11e9-8b4a-0242ac120006",
+                    "domain": "https://psms.io",
+                    "dns_status": "Valid",
+                    "nameservers": "[\"serve-xYi98Xi\"]",
+                    "status": "1",
+                    "created_at": "2019-10-22 16:24:02",
+                    "updated_at": "2019-10-22 16:24:02",
+                    "zone_id": "145",
+                    "links": [
+                        {
+                            "rel": "self",
+                            "uri": "http://passona.test/api/2.0/vanity-domains/fa399fc6-f4df-11e9-8b4a-0242ac120006"
+                        }
+                    ]
+                },
+                {
+                    "uuid": "9cbd44d4-fbbe-11e9-b49d-0242ac120009",
+                    "domain": "https://test.xyz",
+                    "dns_status": "Pending Validation",
+                    "nameservers": "[]",
+                    "status": "1",
+                    "created_at": "2019-10-31 09:12:50",
+                    "updated_at": "2019-10-31 09:13:59",
+                    "zone_id": "",
+                    "links": [
+                        {
+                            "rel": "self",
+                            "uri": "http://passona.test/api/2.0/vanity-domains/9cbd44d4-fbbe-11e9-b49d-0242ac120009"
+                        }
+                    ]
+                }
+            ],
+            "links": {
+                "first": "http://passona.test/api/2.0/vanity-domains?page=1",
+                "last": "http://passona.test/api/2.0/vanity-domains?page=1",
+                "prev": null,
+                "next": null
+            },
+            "meta": {
+                "current_page": 1,
+                "from": 1,
+                "last_page": 1,
+                "path": "http://passona.test/api/2.0/vanity-domains",
+                "per_page": 15,
+                "to": 2,
+                "total": 2
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Delete Vanity Domain {{ tag: 'DELETE', label: '/api/2.0/vanity-domains/ae1fc0f8-fb28-11e9-87dc-0242ac120008' }}
+
+<Row>
+    <Col>
+        Delete a specific vanity domain by passing its `uuid` into the url.
+
+        There is no response body for this request. The HTTP status will be `204 - No Content` when successful.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="DELETE" label="/api/2.0/vanity-domains/ae1fc0f8-fb28-11e9-87dc-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request DELETE 'https://passona.co.uk/api/2.0/vanity-domains/9cbd44d4-fbbe-11e9-b49d-0242ac120009' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---

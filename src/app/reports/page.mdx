@@ -1,0 +1,478 @@
+export const metadata = {
+    title: 'Reports',
+    description:
+        'On this page, we’ll dive into the different reports endpoints you can use to manage reports programmatically.',
+}
+
+# Reports
+
+Campaign reports can be generated or consulted on the flight through the following API endpoints. Generation endpoints will run a task on the server and send an email to the email address associated to your user, with a link to the desired report as a .csv file. The fetching API endpoints present the data in the same way as the .csv reports but in JSON format, paginated. {{ className: 'lead' }}
+
+Six different types of reports are available: {{ className: 'lead' }}
+
+- Clicks report: information about the recipients who clicked on campaign links (Phone_Number, Link_Name, Link_Destination, Clicked_At, User_Agent, Device_Type, OS_Version, Browser_Version).{{ className: 'lead' }}
+- Delivery report: information about delivery statuses of messages (SMS_ID, Sender, Recipient, Message_Copy, Status, Expiry_Date). {{ className: 'lead' }}
+- Alternative Delivery report: an alternative format to the above report (MessageId, Mobile, FieldNames, FieldValues, MessageSent, MessageUpdate, Status). {{ className: 'lead' }}
+- Recipients report: information about the targeted recipients (Phone_Number, Group_Name, Group_Description, Field_Names, Field_Values). {{ className: 'lead' }}
+- Sent Messages report: information about sent messages during the campaign (MessageId, Brand, SentOn, RecipientCount, TemplateApiId, TemplateName, Message). {{ className: 'lead' }}
+- Unsent Messages Report: information about messages which haven't been sent before the expiry of the campaign (MessageId, Mobile, FieldNames, FieldValues, Reason). {{ className: 'lead' }}
+
+---
+
+## Report Generation
+
+The following endpoints can be used to generate reports on the server and to receive an email with a link to the desired report in .csv format for download, once generated. {{ className: 'lead' }}
+
+---
+
+## Generate Clicks Report {{ tag: 'POST', label: '/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/clicks' }}
+
+<Row>
+    <Col>
+        There is no response body for this request. The HTTP status will be `202 - Accepted` when successful.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/clicks">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request POST 'https://passona.co.uk/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/clicks' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Generate Delivery Report {{ tag: 'POST', label: '/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/delivery' }}
+
+<Row>
+    <Col>
+        There is no response body for this request. The HTTP status will be `202 - Accepted` when successful.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/delivery">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request POST 'https://passona.co.uk/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/delivery' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Generate Alternative Delivery Report Format {{ tag: 'POST', label: '/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/alt_delivery' }}
+
+<Row>
+    <Col>
+        There is no response body for this request. The HTTP status will be `202 - Accepted` when successful.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/alt_delivery">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request POST 'https://passona.co.uk/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/alt_delivery' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Generate Recipient Report {{ tag: 'POST', label: '/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/recipient' }}
+
+<Row>
+    <Col>
+        There is no response body for this request. The HTTP status will be `202 - Accepted` when successful.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/recipient">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request POST 'https://passona.co.uk/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/recipient' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Generate Sent Report {{ tag: 'POST', label: '/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/sent' }}
+
+<Row>
+    <Col>
+        There is no response body for this request. The HTTP status will be `202 - Accepted` when successful.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/sent">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request POST 'https://passona.co.uk/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/sent' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Generate Unsent Report {{ tag: 'POST', label: '/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/unsent' }}
+
+<Row>
+    <Col>
+        There is no response body for this request. The HTTP status will be `202 - Accepted` when successful.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/unsent">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request POST 'https://passona.co.uk/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/unsent' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Report Fetching
+
+The following endpoints can be used to browse the available reports for campaigns. Results are given in JSON format, with the keys matching the .csv headers from the previous section. {{ className: 'lead' }}
+
+---
+
+## Fetch Clicks Report {{ tag: 'GET', label: '/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/clicks' }}
+
+<Row>
+    <Col>
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/clicks">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/clicks' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+            ```json {{ title: 'Response' }}
+            {
+                "data": [
+                    {
+                        "Phone_Number": "447123456789",
+                        "Link_Name": "TestLink",
+                        "Link_Destination": "https://digitonic.co.uk/",
+                        "Clicked_At": "2020-06-08 13:50:06",
+                        "User_Agent": "Mozilla/5.0 (Linux; Android 10; SM-G960F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Mobile Safari/537.36",
+                        "Device_Type": "WebKit",
+                        "OS_Version": "10",
+                        "Browser_Version": "83.0.4103.106"
+                    }
+                ],
+                "links": {
+                    "first": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/clicks?page=1",
+                    "last": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/clicks?page=1",
+                    "prev": null,
+                    "next": null
+                },
+                "meta": {
+                    "current_page": 1,
+                    "from": 1,
+                    "last_page": 1,
+                    "path": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/clicks",
+                    "per_page": 50,
+                    "to": 1,
+                    "total": 1
+                }
+            }
+            ```
+    </Col>
+</Row>
+
+---
+
+## Fetch Delivery Report {{ tag: 'GET', label: '/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/delivery' }}
+
+<Row>
+    <Col>
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/delivery">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/delivery' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": [
+                {
+                    "SMS_ID": "49deafce-fbbd-11e9-93b1-0242ac120009",
+                    "Sender": "Digitonic",
+                    "Recipient": "447123456789",
+                    "Message_Copy": "Testing link preview: https://psms.io/DbDrMVye",
+                    "Status": "Success",
+                    "Expiry_Date": "2020-06-27T20:26:30+0100"
+                }
+            ],
+            "links": {
+                "first": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/delivery?page=1",
+                "last": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/delivery?page=1",
+                "prev": null,
+                "next": null
+            },
+            "meta": {
+                "current_page": 1,
+                "from": 1,
+                "last_page": 1,
+                "path": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/delivery",
+                "per_page": 1,
+                "to": 1,
+                "total": 1
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Fetch Alternative Delivery Report Format {{ tag: 'GET', label: '/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/alt_delivery' }}
+
+<Row>
+    <Col>
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/alt_delivery">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/alt_delivery' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": [
+                {
+                    "MessageId": "49deafce-fbbd-11e9-93b1-0242ac120009",
+                    "Mobile": "447123456789",
+                    "FieldNames": "Firs Name,Last Name",
+                    "FieldValues": "John,Doe",
+                    "MessageSent": "2020-06-25 20:26:04",
+                    "MessageUpdate": "2020-06-25 20:26:06",
+                    "Status": "Success"
+                }
+            ],
+            "links": {
+                "first": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/alt_delivery?page=1",
+                "last": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/alt_delivery?page=1",
+                "prev": null,
+                "next": null
+            },
+            "meta": {
+                "current_page": 1,
+                "from": 1,
+                "last_page": 1,
+                "path": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/alt_delivery",
+                "per_page": 1,
+                "to": 1,
+                "total": 1
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Fetch Recipient Report {{ tag: 'GET', label: '/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/recipient' }}
+
+<Row>
+    <Col>
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/recipient">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/recipient' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": [
+                {
+                    "Phone_Number": "447123456789",
+                    "Group_Name": "Just me",
+                    "Group_Description": null,
+                    "Field_Names": "First Name,Last Name",
+                    "Field_Values": "John,Doe"
+                }
+            ],
+            "links": {
+                "first": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/recipient?page=1",
+                "last": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/recipient?page=1",
+                "prev": null,
+                "next": null
+            },
+            "meta": {
+                "current_page": 1,
+                "from": 1,
+                "last_page": 1,
+                "path": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/recipient",
+                "per_page": 50,
+                "to": 1,
+                "total": 1
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Fetch Sent Report {{ tag: 'GET', label: '/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/sent' }}
+
+<Row>
+    <Col>
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/sent">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/sent' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": [
+                {
+                    "MessageId": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                    "Brand": "Digitonic",
+                    "SentOn": "2020-06-25 20:26:02",
+                    "RecipientCount": 1,
+                    "TemplateApiId": "49deafce-fbbd-11e9-93b1-0242ac120009",
+                    "TemplateName": "LinkTest",
+                    "Message": "Testing link preview: ::TestLink::"
+                }
+            ],
+            "links": {
+                "first": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/sent?page=1",
+                "last": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/sent?page=1",
+                "prev": null,
+                "next": null
+            },
+            "meta": {
+                "current_page": 1,
+                "from": 1,
+                "last_page": 1,
+                "path": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/sent",
+                "per_page": 50,
+                "to": 1,
+                "total": 1
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Fetch Unsent Report {{ tag: 'GET', label: '/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/unsent' }}
+
+<Row>
+    <Col>
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/unsent">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/unsent' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": [
+                {
+                    "MessageId": "dc8a7564-fb1e-11e9-abb5-0242ac120008",
+                    "Mobile": "447123456789",
+                    "FieldNames": "First Name,Last Name",
+                    "FieldValues": "John,Doe",
+                    "Reason": "pending"
+                }
+            ],
+            "links": {
+                "first": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/unsent?page=1",
+                "last": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/unsent?page=1",
+                "prev": null,
+                "next": null
+            },
+            "meta": {
+                "current_page": 1,
+                "from": 1,
+                "last_page": 1,
+                "path": "api/2.0/reporting/dc8a7564-fb1e-11e9-abb5-0242ac120008/unsent",
+                "per_page": 50,
+                "to": 1,
+                "total": 1
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---

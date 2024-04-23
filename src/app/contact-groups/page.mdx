@@ -1,0 +1,647 @@
+export const metadata = {
+  title: 'Contact Groups',
+  description:
+    'On this page, we’ll dive into the different contact groups endpoints you can use to manage contact groups programmatically.',
+}
+
+# Contact Groups
+
+Contact groups are the core of Passona. A contact group is the collection of recipients who a campaign will be sent to.
+
+These are split into two contact group types.
+
+**Optin Groups** - An optin group is a collection of recipients who have not opted out from previous correspondence. A campaign can have multiuple contact groups selected in which they can send to.
+
+**Optout Groups** - An optout group is a collection of recipients who have opted out of receiving correspondence from a team in previous encounters. By default each team in Passona will have a `default_optouts` group that can be updated at any point with new contacts.
+
+---
+
+## List Contact Groups {{ tag: 'GET', label: '/api/2.0/contact-groups' }}
+
+<Row>
+    <Col>
+        Use this endpoint to have a list of all the contact groups for your current team.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/contact-groups/">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/contact-groups' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data ''
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": [
+                {
+                    "uuid": "27d4722c-6d20-11ea-956b-5e108ece6f9f",
+                    "name": "HomeOffice",
+                    "description": "",
+                    "created_at": "2020-03-23 16:05:46",
+                    "updated_at": "2020-03-23 16:05:47",
+                    "deletable": true,
+                    "centralised": false,
+                    "number_of_contacts": 5,
+                    "scheduled_jobs_number": 0,
+                    "status": "Ready",
+                    "headers": [
+                        "Name"
+                    ],
+                    "links": [
+                        {
+                            "rel": "self",
+                            "uri": "https://passona.co.uk/api/2.0/contact-groups/27d4722c-6d20-11ea-956b-5e108ece6f9f"
+                        }
+                    ]
+                },
+                {
+                    "uuid": "ff208f8a-226c-11ea-8d13-0e5609bd02eb",
+                    "name": "Messaging Team",
+                    "description": "Messaging Team",
+                    "created_at": "2019-12-19 14:36:52",
+                    "updated_at": "2019-12-19 14:37:09",
+                    "deletable": true,
+                    "centralised": false,
+                    "number_of_contacts": 5,
+                    "scheduled_jobs_number": 0,
+                    "status": "Ready",
+                    "headers": [
+                        "Name"
+                    ],
+                    "links": [
+                        {
+                            "rel": "self",
+                            "uri": "https://passona.co.uk/api/2.0/contact-groups/ff208f8a-226c-11ea-8d13-0e5609bd02eb"
+                        }
+                    ]
+                },
+                {
+                    "uuid": "3fd5ad0c-173d-11ea-b01e-ce76b48d3c9a",
+                    "name": "Internal",
+                    "description": "Internal Group",
+                    "created_at": "2019-12-05 08:57:21",
+                    "updated_at": "2020-01-13 17:26:21",
+                    "deletable": true,
+                    "centralised": false,
+                    "number_of_contacts": 8,
+                    "scheduled_jobs_number": 0,
+                    "status": "Ready",
+                    "headers": [
+                        " last",
+                        " first"
+                    ],
+                    "links": [
+                        {
+                            "rel": "self",
+                            "uri": "https://passona.co.uk/api/2.0/contact-groups/3fd5ad0c-173d-11ea-b01e-ce76b48d3c9a"
+                        }
+                    ]
+                },
+                {
+                    "uuid": "61a0522c-11e6-11ea-9cb0-860f3cf0b394",
+                    "name": "default_optouts",
+                    "description": "The default contact group created on team creation.",
+                    "created_at": "2019-11-28 13:52:56",
+                    "updated_at": "2019-11-28 13:52:56",
+                    "deletable": false,
+                    "centralised": true,
+                    "number_of_contacts": 0,
+                    "scheduled_jobs_number": 0,
+                    "status": "Empty",
+                    "headers": [],
+                    "links": [
+                        {
+                            "rel": "self",
+                            "uri": "https://passona.co.uk/api/2.0/contact-groups/61a0522c-11e6-11ea-9cb0-860f3cf0b394"
+                        }
+                    ]
+                }
+            ],
+            "links": {
+                "first": "https://passona.co.uk/api/2.0/contact-groups?page=1",
+                "last": "https://passona.co.uk/api/2.0/contact-groups?page=1",
+                "prev": null,
+                "next": null
+            },
+            "meta": {
+                "current_page": 1,
+                "from": 1,
+                "last_page": 1,
+                "path": "https://passona.co.uk/api/2.0/contact-groups",
+                "per_page": 50,
+                "to": 15,
+                "total": 15
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Create Contact Group {{ tag: 'POST', label: '/api/2.0/contact-groups' }}
+
+<Row>
+  <Col>
+      Contact groups have a name and an **optional** description to aid recognition.
+
+      They also take a `boolean` field called `deletable`. This relates to Passonas data retention policy, if a contact group is deletable it will be removed if any of these criteria are met.
+
+      **Empty and expired** - If a contact group has been created and has no contacts attached to it and its creation date is older than your teams data retention policy then this group will be deleted when this date passes.
+
+      **Last Used** - If a contact group has not been used in more time than your teams data retention policy allows for, this campaign will be deleted.
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="POST" label="/api/2.0/contact-groups">
+
+    ```bash {{ title: 'cURL' }}
+    curl --location 'https://passona.co.uk/api/2.0/contact-groups' \
+    --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "name": "New Contact Group",
+        "description": "A new contact group",
+        "deletable": true
+    }'
+    ```
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+      {
+          "data": {
+              "uuid": "09e0a326-fb2e-11e9-ba2a-0242ac120008",
+              "name": "New Contact Group",
+              "description": "A new contact group",
+              "created_at": "2019-10-30 15:57:56",
+              "updated_at": "2019-10-30 15:57:56",
+              "deletable": true,
+              "number_of_contacts": 0,
+              "scheduled_jobs_number": 0,
+              "status": "Empty",
+              "headers": [],
+              "links": [
+                  {
+                      "rel": "self",
+                      "uri": "http://passona.test/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                  }
+              ]
+          }
+      }
+    ```
+  </Col>
+</Row>
+
+---
+
+## Edit Contact Group {{ tag: 'PUT', label: '/api/2.0/contact-groups/dc8a7564-fb1e-11e9-abb5-0242ac120008' }}
+
+<Row>
+    <Col>
+        You can edit a contact group providing it does not meet any of these criteria:
+
+        **Campaign Send in progress** - If there is a campaign currently sending which uses this contact group.
+
+        If any of these criteria are met, the contact group will be in a locked state and the API will return a `HTTP 423 - Locked` response.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="PUT" label="/api/2.0/contact-groups/dc8a7564-fb1e-11e9-abb5-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request PUT 'https://passona.co.uk/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "name": "New Contact Group Updated",
+                "description": "A new contact group"
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "09e0a326-fb2e-11e9-ba2a-0242ac120008",
+                "name": "New Contact Group Updated",
+                "description": "A new contact group",
+                "created_at": "2019-10-30 15:57:56",
+                "updated_at": "2019-10-30 15:59:22",
+                "deletable": true,
+                "number_of_contacts": 0,
+                "scheduled_jobs_number": 0,
+                "status": "Empty",
+                "headers": [],
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "http://passona.test/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Show Contact Group {{ tag: 'GET', label: '/api/2.0/contact-groups/dc8a7564-fb1e-11e9-abb5-0242ac120008' }}
+
+<Row>
+    <Col>
+        You can retrieve an individual contact group by passing the `uuid` into the url.
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/contact-groups/dc8a7564-fb1e-11e9-abb5-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "09e0a326-fb2e-11e9-ba2a-0242ac120008",
+                "name": "New Contact Group Updated",
+                "description": "A new contact group",
+                "created_at": "2019-10-30 15:57:56",
+                "updated_at": "2019-10-30 15:59:22",
+                "deletable": true,
+                "number_of_contacts": 0,
+                "scheduled_jobs_number": 0,
+                "status": "Empty",
+                "headers": [],
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "http://passona.test/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Delete Contact Group {{ tag: 'DELETE', label: '/api/2.0/contact-groups/dc8a7564-fb1e-11e9-abb5-0242ac120008' }}
+
+<Row>
+    <Col>
+        Contact groups have several relations within Passona, they may only be deleted manually if the following criteria are not met.
+
+        **Contact Group In Use** - If a contact group is currently in use with an active sending campaign, the contact group si in a locked state and the API will return a `HTTP 423 - Locked` response.
+
+        **Keywords Attached** - If a contact group has keywords attached to them, the contact group is considered to be in a conflicted state and the API will return a `HTTP 409 - Conflict` response.
+
+        There is no response body for this request. The HTTP status will be `204 - No Content` when successful.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="DELETE" label="/api/2.0/contact-groups/dc8a7564-fb1e-11e9-abb5-0242ac120008">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request DELETE 'https://passona.co.uk/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json'
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Add Contacts {{ tag: 'POST', label: '/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/add-contacts' }}
+
+<Row>
+    <Col>
+        Contacts can be added to a contact group along with their associated custom fields.
+
+        Contacts cannot be added to a contact group if the following criteria is not met.
+
+        **Contact Group In Use** - If the contact group is being used by an active sending campaign then it is considered to be in a locked state and the API will return a `HTTP 423 - Locked` response.
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/add-contacts">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request PUT 'https://passona.co.uk/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/add-contacts' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "contacts": [
+                    {
+                        "phone_number": "447713252151",
+                        "custom_fields": {
+                            "first_name": "John",
+                            "last_name": "Doe"
+                        }
+                    },
+                    {
+                        "phone_number": "447713252152",
+                        "custom_fields": {
+                            "first_name": "Jane",
+                            "last_name": "Doe"
+                        }
+                    }
+                ]
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "09e0a326-fb2e-11e9-ba2a-0242ac120008",
+                "name": "New Contact Group Updated",
+                "description": "A new contact group",
+                "created_at": "2019-10-30 15:57:56",
+                "updated_at": "2019-10-30 16:24:14",
+                "deletable": true,
+                "number_of_contacts": 1,
+                "scheduled_jobs_number": 1,
+                "status": "Modifying",
+                "headers": [
+                    "last_name",
+                    "first_name"
+                ],
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "http://passona.test/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Remove Contacts {{ tag: 'PUT', label: '/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/remove-contacts' }}
+
+<Row>
+    <Col>
+        Contacts can be removed from a contact group if the following criteria is not met.
+
+        **Contact Group In Use** - If the contact group is being used by an active sending campaign then it is considered to be in a locked state and the API will return a `HTTP 423 - Locked` response.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="PUT" label="/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/remove-contacts">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request PUT 'https://passona.co.uk/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/remove-contacts' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "phone_numbers": [
+                    "447713252152"
+                ]
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "09e0a326-fb2e-11e9-ba2a-0242ac120008",
+                "name": "New Contact Group Updated",
+                "description": "A new contact group",
+                "created_at": "2019-10-30 15:57:56",
+                "updated_at": "2019-10-30 16:38:25",
+                "deletable": true,
+                "number_of_contacts": 3,
+                "scheduled_jobs_number": 1,
+                "status": "Modifying",
+                "headers": [
+                    "last_name",
+                    "first_name"
+                ],
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "http://passona.test/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Add Bulk Contacts {{ tag: 'POST', label: '/api/2.0/contact-groups/bulk-contacts' }}
+
+<Row>
+    <Col>
+        Bulk contact groups can create the a new contact group with contacts simultaneously.
+
+        Howver these contacts in a bulk group will not have any custom fields available to them for personalisation.
+
+        Contact groups have a name and an **optional** description to aid recognition.
+
+        They also take a `boolean` field called `deletable`. This relates to Passonas data retention policy, if a contact group is deletable it will be removed if any of these criteria are met.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/api/2.0/contact-groups/bulk-contacts">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/contact-groups/bulk-contacts' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "name": "Bulk Contact Group",
+                "description": "Bulk contacts upload with group",
+                "contacts": [
+                    "447787854121",
+                    "447789856230",
+                    "447785412541"
+                ],
+                "deletable": false
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "0b47bc38-37bd-11ea-945f-0242ac140003",
+                "name": "Bulk Contact Group",
+                "description": "Bulk contacts upload with group",
+                "created_at": "2020-01-15 17:32:46",
+                "updated_at": "2020-01-15 17:32:46",
+                "deletable": false,
+                "number_of_contacts": 0,
+                "scheduled_jobs_number": 1,
+                "status": "Modifying",
+                "headers": [],
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "http://passona.test/api/2.0/contact-groups/0b47bc38-37bd-11ea-945f-0242ac140003"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Unique Contacts Calculator {{ tag: 'POST', label: '/api/2.0/contact-groups/unique-contacts' }}
+
+<Row>
+    <Col>
+        This endpoint can be used to calculate the unique number of contacts contained in a set of included and excluded contat groups. This can be useful to check that contacts will or won't be included in your campaign before creating it, or to have an estimate of the total number of messages sent with a campaign.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/api/2.0/contact-groups/unique-contacts">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/contact-groups/unique-contacts' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "included_contact_group_uuids": ["09e0a326-fb2e-11e9-ba2a-0242ac120008"],
+                "excluded_contact_group_uuids": ["9c4fe076-78da-11ea-8a01-f297f8f4092e"]
+            }'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": [
+                {
+                    "phone_number": "447123456789",
+                    "created_at": "2019-06-06 12:15:54"
+                }
+            ]
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## List Contacts from Group {{ tag: 'GET', label: '/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/list-contacts' }}
+
+<Row>
+    <Col>
+        List all contacts contained in a contact group
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/list-contacts">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location 'https://passona.co.uk/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/list-contacts' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": [
+                {
+                    "phone_number": "447123456789",
+                    "created_at": "2019-12-10 17:24:18"
+                }
+            ],
+            "links": {
+                "first": "https://passona.co.uk/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/list-contacts?page=1",
+                "last": "https://passona.co.uk/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/list-contacts?page=1",
+                "prev": null,
+                "next": null
+            },
+            "meta": {
+                "current_page": 1,
+                "from": 1,
+                "last_page": 1,
+                "path": "https://passona.co.uk/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/list-contacts",
+                "per_page": 50,
+                "to": 1,
+                "total": 1
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
+
+## Flush Contact from Group {{ tag: 'PUT', label: '/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/flush' }}
+
+<Row>
+    <Col>
+        List all contacts contained in a contact group
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="PUT" label="/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/flush">
+
+            ```bash {{ title: 'cURL' }}
+            curl --location --request PUT 'https://passona.co.uk/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008/flush' \
+            --header 'Content-Type: application/json' \
+            --header 'Accept: application/json' \
+            --header 'Authorization: Bearer B1gooyw1FlLcITdn2nd4vfem4b4YYogJUGjVTnrrSTOt2T5hCFnS2xpANsYd'
+            ```
+        </CodeGroup>
+
+        ```json {{ title: 'Response' }}
+        {
+            "data": {
+                "uuid": "09e0a326-fb2e-11e9-ba2a-0242ac120008",
+                "name": "Test group",
+                "description": "",
+                "created_at": "2020-04-07 15:18:10",
+                "updated_at": "2020-07-02 20:13:33",
+                "deletable": true,
+                "centralised": false,
+                "number_of_contacts": 1,
+                "scheduled_jobs_number": 1,
+                "status": "Modifying",
+                "headers": [],
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://passona.co.uk/api/2.0/contact-groups/09e0a326-fb2e-11e9-ba2a-0242ac120008"
+                    }
+                ]
+            }
+        }
+        ```
+    </Col>
+</Row>
+
+---
